@@ -1,0 +1,28 @@
+{{ $img := resources.Get (printf "%s/%s" ( .Site.Params.postimgfoler ) (.Get "imgPath")) }}
+
+{{ $imgpath := (printf "%s/%s/%s" ( "assets" ) (.Site.Params.postimgfoler ) (.Get "imgPath")) }}
+
+{{ $pagehgt := (printf "x%s q20" (.Get "max-height")) }}
+{{ .Scratch.Set "image" ($img.Resize $pagehgt) }}
+{{ $pageimage := .Scratch.Get "image" }}
+
+{{ $imgData :=  imageConfig $imgpath }}
+{{ $fanhgt := string ( $imgData.Height ) }}
+{{ if gt  $imgData.Height  550 }}
+{{ $fanhgt = "550" }}
+{{ end }}
+
+{{ $fanhgt := (printf "x%s q20" ($fanhgt)) }}
+{{ .Scratch.Set "image" ($img.Resize $fanhgt) }}
+{{ $fanimage := .Scratch.Get "image" }}
+
+<div align="center">
+    <figure style="padding: 0.8rem; margin: 2rem 0; border: thin #c0c0c0 solid; border-radius: 10px; width: {{$pageimage.Width}}px; max-width: 88%; ">
+    <a href="{{ $fanimage.RelPermalink | relLangURL }}" data-fancybox data-caption={{ .Get "alt" }} >
+        <img data-src="{{ $pageimage.RelPermalink }}" class="img-responsive img-lazyload" alt={{ .Get "alt" }} style="height: {{$pageimage.Height}}px;"/>
+    </a>
+    <figcaption class="text-capitalize">
+        <small>{{ .Get "alt" }}</small>
+    </figcaption>
+    </figure>
+</div>

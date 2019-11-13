@@ -1,0 +1,7 @@
+User-agent: *
+sitemap: {{ .Site.BaseURL }}/sitemap.xml
+disallow: /img/avatar-kz.jpg
+disallow: /img/reward/
+allow: {{ .Site.BaseURL }}/index.xml
+{{ range .Site.RegularPages	}}allow: {{ .Permalink }}
+{{end}}

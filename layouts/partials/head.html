@@ -1,0 +1,141 @@
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Baidu TuiGuang -->
+    {{ if .Site.Params.ba_ad_id }}
+    <meta name="baidu_union_verify" content="{{ .Site.Params.ba_ad_id }}" />
+    {{ end }}
+    <!-- Google site verification -->
+    {{ if .Site.Params.ga_site_id }}
+    <meta name="google-site-verification" content="{{ .Site.Params.ga_site_id }}" />
+    {{ end }}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {{ if .Description }}
+    <meta name="description" content="{{ .Description }}" />
+    {{ else }}
+    <meta name="description" content="{{ .Site.Params.description }}" />
+    {{ end }}
+    <!-- Using tags as post's keywords -->
+    {{ if .Params.tags }}
+    {{ with  .Params.tags }}<meta name="keywords" content="{{ range $i, $e := . }}{{ if $i }} {{ end }}{{ $e }}{{ end }}" />{{ end }}
+    {{ else }}
+    <meta name="keywords" content="{{ .Site.Params.keywords }}" />
+    {{ end }}
+    <link rel="shortcut icon" href="{{ "img/favicon.ico" | relURL }}" />
+    {{ if (ne ("/") (.RelPermalink)) }}
+        <title>{{ .Title }}-{{ .Site.Title  }}</title>
+    {{ else }}
+        <title>{{ .Title }} </title>
+    {{ end }}
+
+    <!-- languages - Google way: <link rel="alternate" hreflang="es" href="http://es.example.com/" /> -->
+    {{ if .Params.Lang }}
+    <link rel="alternate" hreflang="{{ .Params.Lang }}" href="{{ .Permalink }}" />
+    {{ else }}
+    <link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}" />
+    {{ end }}
+    <link rel="alternate" href="{{ .Permalink }}" hreflang="x-default" />
+
+    <link rel="canonical" href="{{ .Permalink }}" />
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{ "css/bootstrap.min.css" | relURL  }}" />
+    <!-- Custom CSS -->
+    {{ $huxcss := resources.Get "css/hux-blog.css" }}
+    {{ $huxstyle := $huxcss | resources.Minify }}
+    <link rel="stylesheet" href="{{ $huxstyle.Permalink }}" />
+
+    <!-- Custom Fonts -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!--
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    -->
+    <!-- jQuery -->
+    {{ $jqueryjs := resources.Get "js/jquery.js" }}
+    {{ $jqueryscript := $jqueryjs | resources.Minify }}
+    <script src="{{ $jqueryscript.Permalink }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    {{ $bootstrapjs := resources.Get "js/bootstrap.js" }}
+    {{ $bootstrapscript := $bootstrapjs | resources.Minify }}
+    <script src="{{ $bootstrapscript.Permalink }}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    {{ $huxjs := resources.Get "js/hux-blog.js" }}
+    {{ $huxscript := $huxjs | resources.Minify }}
+    <script src="{{ $huxscript.Permalink }}"></script>
+    <!-- zangshang CSS -->
+    {{ if .Params.reward }}
+    {{ $zanshangcss := resources.Get "css/zanshang.css" }}
+    {{ $zanshangstyle := $zanshangcss | resources.Minify }}
+    <link rel="stylesheet" href="{{ $zanshangstyle.Permalink }}" />
+
+    <!-- <link rel="stylesheet" href="{{ "css/zanshang.css" | relURL }}"> -->
+    {{end}}
+    <!-- disqus CSS -->
+    {{ if .Site.DisqusShortname }}
+    <link rel="stylesheet" href="{{ "css/iDisqus.min.css" | relURL }}" />
+    {{ end }}
+    <!-- JS/CSS for postimg -->
+    {{ if .Params.postWithImg }}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+    {{end}}
+
+    <!-- structured data for Google -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+        },
+        "headline": "{{ if (ne ("/") (.RelPermalink)) }}{{ .Title }}{{ else }}{{ .Title }}{{ end }}",
+        "image": [
+
+            "https://raw.githubusercontent.com/gohugoio/hugoDocs/master/static/img/hugo-logo.png"
+        ],
+        "datePublished": "{{ .Date.Format " January 2, 2006" }}",
+        "dateModified": "{{ .Lastmod.Format " January 2, 2006" }}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ if .Params.author }}{{ .Params.author }}{{ else }}{{ .Site.Title }}{{ end }}",
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Hugo",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                }
+        },
+        "description": "{{ .Params.description }}"
+    }
+    </script>
+    <!--Privacy Announcement https://cookieconsent.insites.com/download/# -->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <!-- Google Adsense, Note: last part of html head -->
+    {{ if .Site.Params.Google_ad_id }}
+    <!-- Desktop -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "{{ .Site.Params.Google_ad_id }}",
+            enable_page_level_ads: true
+        });
+    </script>
+    <!-- Mobile -->
+    <script async custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+    </head>
+    <body>
+    <amp-auto-ads type="adsense"
+    data-ad-client="{{ .Site.Params.Google_ad_id }}">
+    </amp-auto-ads>
+
+    {{ else }}
+    </head>
+    <body>
+    {{ end }}

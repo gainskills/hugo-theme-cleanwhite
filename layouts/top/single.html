@@ -1,0 +1,44 @@
+{{ define "main" }}
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-10 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+                {{ .Content }}
+                {{ partial "comments.html" . }}
+            </div>
+            <!-- Sidebar Container -->
+        </div>
+    </div>
+</article>
+<!-- Featured Tags -->
+{{ if .Site.Params.featured_tags }}
+<div class="container">
+    <div class="row">
+        <div class="
+            col-lg-10 col-lg-offset-1" >
+            <div class="sidebar-container">
+            <h5>Pages with featured tags</h5>
+                <div class="tags">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{ $featured_condition_size := .Site.Params.featured_condition_size }}
+                    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                    {{ if gt (len $taxonomy.Pages) $featured_condition_size }}
+                    <a href="{{ "tags/" | relLangURL }}{{ $name | urlize }}" title="{{ $name }}">
+                        {{ $name }}
+                    </a>
+                    {{ end }}
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
+{{ end }}
+
+

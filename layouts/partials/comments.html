@@ -1,0 +1,22 @@
+{{ if and (.Site.DisqusShortname) (not (eq .Params.showdisqus false)) }}
+<!-- disqus 评论框 end -->
+<div id="disqus-comment">
+    {{ if .Site.Params.disqus_proxy }}
+    {{ $iDisqusjs := resources.Get "js/iDisqus.js" }}
+    {{ $iDisqusscript := $iDisqusjs | resources.Minify }}
+    <script src="{{ $iDisqusscript.Permalink }}"></script>
+    <script>
+    var disq = new iDisqus('disqus-comment', {
+        forum: '{{ .Site.DisqusShortname}}',
+        api: '{{ .Site.Params.disqus_proxy }}',
+        site: '{{ .Site.Params.disqus_site }}',
+        mode: 1,
+        timeout: 5000,
+        init: true
+    });
+    </script>
+    {{ else }}
+    {{ template "_internal/disqus.html" . }}
+    {{ end }}
+</div>
+{{ end }}

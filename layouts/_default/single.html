@@ -1,0 +1,127 @@
+{{ define "header" }}
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('{{ if .Params.image }}{{ .Params.image | relURL }}{{ else }}{{ .Site.Params.header_image | relURL}}{{ end }}')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        {{ range .Params.tags }}
+                        <a class="tag" href="{{ "tags/" | relLangURL }}{{ . | urlize }}" title="{{ . }}">{{ . }}</a>
+                        {{ end }}
+                    </div>
+                    <h1>{{ .Title }}</h1>
+                    <h3 class="subheading">{{ .Params.subtitle }}</h3>
+                    <span class="meta">Posted by {{ if .Params.author }}{{ .Params.author }}{{ else }}{{ .Site.Title }}{{ end }} on {{ .Date.Format " January 2, 2006" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{{ end }}
+
+{{ define "main" }}
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="
+                col-lg-10 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                post-container">
+                {{ if eq .Params.showtoc true }}
+                <header>
+                    <h3>Table of Content</h3>
+                </header>
+                {{.TableOfContents}}
+                {{ end }}
+                {{ .Content }}
+                {{ if .Params.reward }}
+                {{ partial "reward.html" . }}
+                {{ end }}
+                {{ partial "share.html" . }}
+                <!-- <hr class="hidden-sm hidden-xs"> -->
+                <ul class="pager">
+                    {{ if .PrevInSection }}
+                    <li class="previous">
+                        <a rel="nofollow" href="{{ .PrevInSection.RelPermalink | relLangURL }}" data-toggle="tooltip" data-placement="top" title="{{ .PrevInSection.Title}}">&larr;
+                            Previous Post</a>
+                    </li>
+                    {{ end }}
+                    {{ if .NextInSection }}
+                    <li class="next">
+                        <a rel="nofollow" href="{{ .NextInSection.RelPermalink | relLangURL }}" data-toggle="tooltip" data-placement="top" title="{{ .NextInSection.Title}}">Next
+                            Post &rarr;</a>
+                    </li>
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+    $(function() {
+        return $("h2, h3, h4, h5, h6").each(function(i, el) {
+            var $el, icon, id;
+            $el = $(el);
+            id = $el.attr('id');
+            link = $el.attr('href')
+            icon = '<i class="fa fa-link"></i>';
+            if (id) {
+                return $el.prepend($("<a />").addClass("header-link").attr("href", "#" + id).html(icon));
+            }
+        });
+    });
+    </script>
+</article>
+<div class="container">
+    <div class="row">
+        <div class="
+            col-lg-10 col-lg-offset-1" >
+            <hr class="hidden-sm hidden-xs">
+            {{ $related := .Site.RegularPages.RelatedIndices . | first 5 }}
+            {{ with $related }}
+            <h5>See Also</h5>
+            <ul>
+                {{ range . }}
+                <li><a href="{{ .RelPermalink | relLangURL }}">{{ .Title }}
+                </a></li>
+                {{ end }}
+            </ul>
+            {{ end }}
+
+            <!-- Featured Tags -->
+            {{ if .Site.Params.featured_tags }}
+            <div class="sidebar-container">
+            <h5>Pages with featured tags</h5>
+                <div class="tags">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{ $featured_condition_size := .Site.Params.featured_condition_size }}
+                    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                    {{ if gt (len $taxonomy.Pages) $featured_condition_size }}
+                    <a href="{{ "tags/" | relLangURL }}{{ $name | urlize }}" title="{{ $name }}">
+                        {{ $name }}
+                    </a>
+                    {{ end }}
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+            </section>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+        <hr class="hidden-sm hidden-xs">
+        {{ partial "comments.html" . }}
+        </div>
+    </div>
+</div>
+{{ end }}

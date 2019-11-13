@@ -1,0 +1,31 @@
+<div class="entry-shang text-center">
+	<button class="zs show-zs btn btn-bred">Donation</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+			<span class="author" align="right"><br><p class='tip'>{{ .Title }}</p><br></span>
+	        <!-- <span class="author"><img src="{{ "img/favicon.png" | relURL}}" /></span> -->
+        </div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">$2</button>
+			<button class="btn btn-blink" data-num="5">$5</button>
+			<button class="btn btn-blink" data-num="1">Any</button>
+		</div>
+		<div class="zs-modal-pay">
+			<!-- <button class="btn btn-bred" id="pay-text">2元	</button> -->
+			<img alt="donation"  id="pay-image"/>
+			<p>Scan the QR code using <span id="pay-type">WeChat</span></p>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label class="radio-inline"><input type="radio" name="zs-type" value= "paypal" class="zs-type" class="zs-paypal" checked="checked"><img alt="paypal" /></label>
+		<label class="radio-inline"><input type="radio" name="zs-type" value="wechat" class="zs-type" class="zs-wechat"><img alt="wechat" /></label>
+		<label class="radio-inline"><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img alt="alipay" /></label>
+	</div>
+</div>
+{{ $rewardjs := resources.Get "js/reward.js" }}
+{{ $rewardscript := $rewardjs | resources.Minify }}
+<script src="{{ $rewardscript.Permalink }}"></script>
