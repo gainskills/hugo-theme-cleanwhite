@@ -9,11 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            {{ if or ((hasPrefix (.URL) ("/categories/"))) ((hasPrefix (.URL) ("/tags/"))) ((hasPrefix (.URL) ("/top/"))) ((hasPrefix (.URL) ("/search/"))) }}
-                <a class="navbar-brand" href="{{ "/" | relLangURL }}">Home</a>
-            {{ else if (ne ("/") (.URL)) }}
-                <a class="navbar-brand" href="{{ "/" | relLangURL }}">{{ .Site.Title }}</a>
-            {{ end }}
+            <a class="navbar-brand" href="{{ "/" | relLangURL }}">Home</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
