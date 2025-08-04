@@ -72,7 +72,7 @@
     <!-- <link rel="stylesheet" href="{{ "css/zanshang.css" | relURL }}"> -->
     {{end}}
     <!-- disqus CSS -->
-    {{ if .Site.DisqusShortname }}
+    {{ if .Site.Config.Services.Disqus.Shortname }}
     <link rel="stylesheet" href="{{ "css/iDisqus.min.css" | relURL }}" />
     {{ end }}
     <!-- JS/CSS for postimg -->
@@ -117,25 +117,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
     <!-- Google Adsense, Note: last part of html head -->
     {{ if .Site.Params.Google_ad_id }}
-    <!-- Desktop -->
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "{{ .Site.Params.Google_ad_id }}",
-            enable_page_level_ads: true
-        });
-    </script>
-    <!-- Mobile -->
-    <script async custom-element="amp-auto-ads"
-    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-    </script>
-    </head>
-    <body>
-    <amp-auto-ads type="adsense"
-    data-ad-client="{{ .Site.Params.Google_ad_id }}">
-    </amp-auto-ads>
-
-    {{ else }}
-    </head>
-    <body>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ .Site.Params.Google_ad_id }}"
+        crossorigin="anonymous"></script>
     {{ end }}
+    <!-- Mobile -->
+    </head>
+    <body>

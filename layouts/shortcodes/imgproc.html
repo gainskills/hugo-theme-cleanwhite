@@ -2,9 +2,9 @@
 
 {{ $imgpath := (printf "%s/%s/%s" ( "assets" ) (.Site.Params.postimgfoler ) (.Get "imgPath")) }}
 
+{{ if $img }}
 {{ $pagehgt := (printf "x%s q20" (.Get "max-height")) }}
-{{ .Scratch.Set "image" ($img.Resize $pagehgt) }}
-{{ $pageimage := .Scratch.Get "image" }}
+{{ $pageimage := $img.Resize $pagehgt }}
 
 {{ $imgData :=  imageConfig $imgpath }}
 {{ $fanhgt := string ( $imgData.Height ) }}
@@ -13,8 +13,7 @@
 {{ end }}
 
 {{ $fanhgt := (printf "x%s q20" ($fanhgt)) }}
-{{ .Scratch.Set "image" ($img.Resize $fanhgt) }}
-{{ $fanimage := .Scratch.Get "image" }}
+{{ $fanimage := $img.Resize $fanhgt }}
 
 <div align="center">
     <figure style="padding: 0.8rem; margin: 2rem 0; border: thin #c0c0c0 solid; border-radius: 10px; width: {{$pageimage.Width}}px; max-width: 88%; ">
@@ -26,3 +25,6 @@
     </figcaption>
     </figure>
 </div>
+{{ else }}
+{{ errorf "Image not found: %s" (printf "%s/%s" ( .Site.Params.postimgfoler ) (.Get "imgPath")) }}
+{{ end }}
